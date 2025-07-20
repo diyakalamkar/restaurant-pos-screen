@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap');
+
+body, html {
+  font-family: "Quicksand", sans-serif;
+  background-color: #FEF9EF;
+  color: #210124;
+  margin: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  color: #227C9D;
+  margin: 10px 0 6px;
+}
+
+/* Updated Select Box */
+select {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 2px solid #17C3B2;
+  background-color: #FFFFFF;
+  color: #210124;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%2317C3B2' stroke-width='3' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px 16px;
+  width: 100%;
+  max-width: 320px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+select:focus {
+  outline: none;
+  border-color: #227C9D;
+  box-shadow: 0 0 0 3px rgba(23, 195, 178, 0.25);
+}
+
+/* Fix dropdown menu background (browser-limited styling) */
+option {
+  font-weight: 600;
+  background-color: #FEF9EF;
+  color: #210124;
+}
+
+/* Inputs match dropdown style */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 2px solid #17C3B2;
+  background-color: #FFFFFF;
+  color: #210124;
+  width: 100%;
+  max-width: 320px;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #227C9D;
+  box-shadow: 0 0 0 3px rgba(34, 124, 157, 0.25);
+}
+
+/* Button Styling */
+button {
+  background-color: #FE6D73;
+  color: #FFFFFF;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+button:hover {
+  background-color: #FFCB77;
+  color: #227C9D;
+  transform: scale(1.03);
+}

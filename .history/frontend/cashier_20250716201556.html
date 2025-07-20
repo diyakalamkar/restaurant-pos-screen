@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cashier Dashboard</title>
+</head>
+<body>
+  <h2>Welcome, Cashier {{ user.name }}!</h2>
+
+  <!-- Cart Creation Form -->
+  <form id="create-cart-form">
+    <label>Channel:</label>
+    <select id="channel-select">
+      <option value="Dine-In">Dine-In</option>
+      <option value="Takeaway">Takeaway</option>
+    </select> <br><br>
+    <button type="submit">Create New Cart</button>
+  </form>
+
+  <script>
+    document.getElementById("create-cart-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const token = "{{ token }}";
+      const channel = document.getElementById("channel-select").value;
+      const formData = new FormData();
+      formData.append("channel", channel);
+
+      const response = await fetch("/cart", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        alert("Cart created!");
+        // location.href = `/cashier-dashboard?token=${token}`;
+        location.href = `/cashier-dashboard?token=${token}&channel=${channel}`;
+
+      } else {
+        const data = await response.json();
+        alert("Error: " + (data.detail || "Something went wrong"));
+      }
+    });
+  </script>
+
+  <hr>
+
+{% if cart %}
+
+<!-- Add Product to Cart -->
+<h3>Add Item to Cart</h3>
+<form action="/cart-html/{{ cart.id }}/add-item" method="post">
+  <input type="hidden" name="token" value="{{ token }}">
+  <label>Product:</label>
+  <!-- <select name="product_name" id="product-select" required>
+    <option value="">Select Items</option>
+    {% for product in products %}
+      <option value="{{ product.id }}" data-price="{{ product.price }}">{{ product.name }}</option>
+    {% endfor %}
+  </select><br> -->
+  <select name="product_id" id="product-select">
+  {% for product in products %}
+    <option value="{{ product.id }}" data-price="{{ product.price }}">{{ product.name }} - ₹{{ product.price }}</option>
+  {% endfor %}
+</select> <br>
+
+
+  <label>Quantity:</label>
+  <input type="number" name="quantity" id="quantity" value="1" min="1" required><br>
+
+  <label>Price (₹):</label>
+  <input type="number" name="price" id="price" step="0.01" readonly required><br>
+
+  <button type="submit">Add Item</button><br><br>
+</form>
+
+<script>
+  document.getElementById("product-select").addEventListener("change", function () {
+    const selected = this.options[this.selectedIndex];
+    document.getElementById("price").value = selected.getAttribute("data-price") || 0;
+  });
+</script>
+
+<hr>
+
+<!-- Add Deal Section -->
+<h3>Add Deal to Cart</h3>
+<form method="post" action="/cart-html/{{ cart.id }}/add-deal">
+  <input type="hidden" name="token" value="{{ token }}">
+  <label>Deal:</label>
+  <select name="deal_id" id="deal-select" required>
+    <option value="">Select a Deal</option>
+    {% for deal in deals %}
+      <option value="{{ deal.id }}">{{ deal.name }}</option>
+    {% endfor %}
+  </select><br><br>
+  <div id="deal-items-container"></div>
+  <button type="submit">Add Deal</button>
+</form>
+
+<script>
+  document.getElementById("deal-select").addEventListener("change", async function () {
+    const dealId = this.value;
+    const token = "{{ token }}";
+    const container = document.getElementById("deal-items-container");
+    container.innerHTML = "";
+
+    if (!dealId) return;
+
+    const res = await fetch(`/api/deals/${dealId}/line-items`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return;
+
+    const data = await res.json();
+    data.items.forEach((item, index) => {
+      let modifierOptions = item.modifiers.map(m => `<option value="${m.id}">${m.name} (+₹${m.extra_price})</option>`).join('');
+
+      container.innerHTML += `
+        <div class="deal-item-block">
+          <p><strong>${item.product_name}</strong></p>
+          ${item.editable ? `
+            <label>Swap Item:</label>
+            <select name="swap_product_${index}">
+              ${data.all_products.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}
+            </select><br>` : ''}
+          <label>Modifier:</label>
+          <select name="modifier_${index}">${modifierOptions}</select>
+          <hr>
+        </div>`;
+    });
+  });
+</script>
+
+<hr>
+
+<!-- Cart Items -->
+<h3>Cart Summary</h3>
+<ul>
+  {% for item in cart_items %}
+    <li {% if item.is_voided %}style="text-decoration: line-through; color: gray;"{% endif %}>
+      {{ item.quantity }} x {{ item.product_name }} @ ₹{{ item.price }} = ₹{{ item.quantity * item.price }}
+      {% if item.modifiers %}
+        <br><small>Modifiers: {{ item.modifiers | map(attribute='modifier_name') | join(', ') }}</small>
+      {% endif %}
+      {% if not item.is_voided %}
+        <form method="post" action="/cart-html/{{ cart.id }}/remove-item" style="display:inline">
+          <input type="hidden" name="item_id" value="{{ item.id }}">
+          <input type="hidden" name="token" value="{{ token }}">
+          <button type="submit">Remove</button>
+        </form>
+      {% endif %}
+      <!-- <form method="post" action="/cart-html/{{ cart.id }}/void-item" style="display:inline">
+        <input type="hidden" name="item_id" value="{{ item.id }}">
+        <input type="hidden" name="token" value="{{ token }}">
+        <button type="submit" style="color:red">Void</button>
+      </form> -->
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Cart Deals -->
+{% if cart.deals %}
+  <h4>Deals</h4>
+  <ul>
+    {% for cart_deal in cart.deals %}
+      <li {% if cart_deal.is_voided %}style="text-decoration: line-through; color: gray;"{% endif %}>
+        <strong>{{ cart_deal.deal_name }}</strong> - ₹{{ '%.2f'|format(cart_deal.total_price or 0.0) }}
+        {% if not cart_deal.is_voided %}
+          <form method="post" action="/cart-html/{{ cart.id }}/remove-deal" style="display:inline">
+            <input type="hidden" name="cart_deal_id" value="{{ cart_deal.id }}">
+            <input type="hidden" name="token" value="{{ token }}">
+            <button type="submit">Remove Deal</button>
+          </form>
+        {% endif %}
+        <!-- <form method="post" action="/cart-html/{{ cart.id }}/void-deal" style="display:inline">
+          <input type="hidden" name="cart_deal_id" value="{{ cart_deal.id }}">
+          <input type="hidden" name="token" value="{{ token }}">
+          <button type="submit" style="color:red">Void</button>
+        </form> -->
+        <ul>
+          {% for item in cart_deal.items %}
+            <li {% if item.is_voided %}style="text-decoration: line-through; color: gray;"{% endif %}>
+              {{ item.quantity }} x {{ item.product_name }} @ ₹{{ item.price }} = ₹{{ item.quantity * item.price }}
+              {% if item.modifiers %}
+                <br><small>Modifiers: {{ item.modifiers | map(attribute='modifier_name') | join(', ') }}</small>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<!-- Totals -->
+<p><strong>Subtotal:</strong> ₹{{ '%.2f'|format(subtotal) }}</p>
+<p><strong>Tax (5%):</strong> ₹{{ '%.2f'|format(tax) }}</p>
+<p><strong>Discount:</strong> ₹{{ '%.2f'|format(cart.discount_amount or 0.0) }}</p>
+<p><strong>Total:</strong> ₹{{ '%.2f'|format(total) }}</p>
+
+<!-- Multi-Mode Payment -->
+<h3>Enter Payments:</h3>
+<form method="post" action="/cart-html/{{ cart.id }}/checkout">
+  <input type="hidden" name="token" value="{{ token }}">
+
+  <div id="payment-methods-container">
+    <div class="payment-method-row">
+      <select name="payment_methods">
+        <option value="cash">Cash</option>
+        <option value="cashless">Cashless</option>
+        <option value="upi">UPI</option>
+        <option value="card">Card</option>
+      </select>
+      <input type="number" name="amounts" step="0.01" placeholder="Amount" required>
+      <label><input type="checkbox" name="tender_flags"> Tender</label>
+      <button type="button" onclick="removeRow(this)">Remove Method</button>
+    </div>
+  </div>
+
+  <button type="button" onclick="addPaymentRow()">Add Payment Method</button><br><br>
+  <div id="payment-summary"></div>
+  <button type="submit">Checkout</button>
+</form>
+
+<script>
+  function calculateTotals() {
+    const cartTotal = parseFloat("{{ '%.2f'|format(total) }}");
+    const rounded = Math.round(cartTotal);
+
+    const amountInputs = document.querySelectorAll('input[name="amounts"]');
+    const methodSelects = document.querySelectorAll('select[name="payment_methods"]');
+    const tenderCheckboxes = document.querySelectorAll('input[name="tender_flags"]');
+
+    let totalPaid = 0;
+    let cashTendered = 0;
+
+    amountInputs.forEach((input, i) => {
+      const method = methodSelects[i].value;
+      const tendered = tenderCheckboxes[i]?.checked;
+      const val = parseFloat(input.value) || 0;
+
+      totalPaid += val;
+      if (method === "cash" && tendered) {
+        cashTendered += val;
+      }
+    });
+
+    const remaining = rounded - cashTendered;
+
+    amountInputs.forEach((input, i) => {
+      const method = methodSelects[i].value;
+      const isCash = method === "cash";
+      const val = parseFloat(input.value);
+
+      if (!isCash && (!val || val === 0)) {
+        const otherFilled = getOtherNonCashTotal(i);
+        const suggested = Math.max(0, remaining - otherFilled).toFixed(2);
+        input.value = suggested;
+      }
+    });
+
+    totalPaid = Array.from(amountInputs).reduce((sum, input) => sum + (parseFloat(input.value) || 0), 0);
+    const change = Math.max(0, cashTendered - rounded).toFixed(2);
+
+    // Disable "Add Payment Method" button if fully paid
+    const addButton = document.querySelector('button[onclick="addPaymentRow()"]');
+    if (totalPaid >= rounded) {
+      addButton.disabled = true;
+    } else {
+      addButton.disabled = false;
+    }
+
+    let message = "";
+    if (totalPaid < cartTotal) {
+      const shortfall = (cartTotal - totalPaid).toFixed(2);
+      message += `<p style="color: red;">Total paid ₹${totalPaid.toFixed(2)} is less than bill ₹${cartTotal.toFixed(2)} (Short: ₹${shortfall})</p>`;
+    }
+
+    if (cashTendered > 0) {
+      message += `<p style="color: green;">Cash tendered: ₹${cashTendered.toFixed(2)} | Rounded: ₹${rounded} | Change: ₹${change}</p>`;
+    }
+
+    document.getElementById("payment-summary").innerHTML = message;
+  }
+
+  function getOtherNonCashTotal(skipIndex) {
+    let total = 0;
+    const amountInputs = document.querySelectorAll('input[name="amounts"]');
+    const methodSelects = document.querySelectorAll('select[name="payment_methods"]');
+
+    amountInputs.forEach((input, i) => {
+      if (i !== skipIndex && methodSelects[i].value !== "cash") {
+        total += parseFloat(input.value) || 0;
+      }
+    });
+
+    return total;
+  }
+
+  function enforceTenderRules() {
+    document.querySelectorAll('.payment-method-row').forEach(row => {
+      const method = row.querySelector('select[name="payment_methods"]');
+      const tenderCheckbox = row.querySelector('input[name="tender_flags"]');
+
+      if (method && tenderCheckbox) {
+        if (method.value !== 'cash') {
+          tenderCheckbox.checked = false;
+          tenderCheckbox.disabled = true;
+        } else {
+          tenderCheckbox.disabled = false;
+        }
+      }
+    });
+  }
+
+  function addPaymentRow() {
+    const container = document.getElementById("payment-methods-container");
+
+    // Prevent adding if fully paid
+    const cartTotal = parseFloat("{{ '%.2f'|format(total) }}");
+    const rounded = Math.round(cartTotal);
+    const totalPaid = Array.from(document.querySelectorAll('input[name="amounts"]')).reduce((sum, input) => sum + (parseFloat(input.value) || 0), 0);
+    if (totalPaid >= rounded) return;
+
+    const row = document.createElement("div");
+    row.classList.add("payment-method-row");
+    row.innerHTML = `
+      <select name="payment_methods">
+        <option value="cash">Cash</option>
+        <option value="cashless">Cashless</option>
+        <option value="upi">UPI</option>
+        <option value="card">Card</option>
+      </select>
+      <input type="number" name="amounts" step="0.01" placeholder="Amount" required>
+      <label><input type="checkbox" name="tender_flags"> Tender</label>
+      <button type="button" onclick="removeRow(this)">Remove Row</button>
+    `;
+    container.appendChild(row);
+
+    enforceTenderRules();
+    setTimeout(() => calculateTotals(), 0);
+  }
+
+  function removeRow(btn) {
+    btn.parentElement.remove();
+    calculateTotals();
+  }
+
+  document.addEventListener('change', function(e) {
+    if (
+      e.target.matches('select[name="payment_methods"]') ||
+      e.target.matches('input[name="amounts"]') ||
+      e.target.matches('input[name="tender_flags"]')
+    ) {
+      enforceTenderRules();
+      calculateTotals();
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    enforceTenderRules();
+    calculateTotals();
+  });
+</script>
+  
+
+<!-- Discount -->
+<h3>Apply Discount (optional):</h3>
+<form method="post" action="/cart-html/{{ cart.id }}/apply-discount">
+  <input type="hidden" name="token" value="{{ token }}">
+  <select name="discount_id" onchange="this.form.submit()">
+    <option value="">No Discount</option>
+    {% for discount in discounts %}
+      <option value="{{ discount.id }}" {% if cart.discount_applied == discount.name %}selected{% endif %}>{{ discount.name }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+{% if discount_not_applied %}
+  <p style="color: red;">Discount "{{ discount_name }}" not applicable (Min: ₹{{ '%.2f'|format(min_order_value) }})</p>
+{% endif %}
+{% if success_message %}
+  <p style="color: green;"><strong>{{ success_message }}</strong></p>
+{% endif %}
+
+<!-- Delete Cart -->
+<form method="post" action="/cart-html/{{ cart.id }}/delete-cart">
+  <input type="hidden" name="token" value="{{ token }}">
+  <button type="submit">Delete Cart</button>
+</form>
+
+{% endif %}
+
+{% if error %}
+  <p style="color: red;"><strong>{{ error }}</strong></p>
+{% endif %}
+</body>
+</html>

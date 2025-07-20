@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+
+body, html {
+  font-family: "Quicksand", sans-serif;
+  background-color: #FEF9EF; /* Floral white */
+  color: #227C9D; /* Cerulean */
+  margin: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 700;
+  color: #227C9D;
+  margin-bottom: 12px;
+}
+
+form {
+  background-color: #B3DEC1; /* fallback if needed */
+  background-color: #E5FCF5;
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 10px 0 6px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border: 2px solid #227C9D;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 320px;
+  background-color: #FFFFFF;
+  color: #210124;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #17C3B2;
+  box-shadow: 0 0 0 3px rgba(23, 195, 178, 0.2);
+  outline: none;
+}
+
+button {
+  background-color: #FE6D73; /* Light Red */
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: "Quicksand", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 12px;
+}
+
+button:hover {
+  background-color: #FFCB77; /* Sunset */
+  color: #227C9D;
+  transform: translateY(-1px);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 12px;
+  background-color: #FFFFFF;
+  color: #210124;
+  margin-bottom: 10px;
+  border: 1px solid #E5FCF5;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.payment-method-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.deal-item-block {
+  padding: 16px;
+  background-color: #FFCB77;
+  border-radius: 10px;
+  color: #210124;
+}
+
+.error {
+  color: #FE6D73;
+  font-weight: bold;
+}
+
+.success {
+  color: #17C3B2;
+  font-weight: bold;
+}
+
+hr {
+  border: none;
+  border-top: 2px dotted #227C9D;
+  margin: 30px 0;
+}
+
+.voided {
+  text-decoration: line-through;
+  color: gray;
+  opacity: 0.7;
+}
+
+/* Fix the extra arrow in dropdowns */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #FFFFFF;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='none' stroke='%23227C9D' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px 16px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+option {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 10px;
+  background-color: #FEF9EF;
+  color: #210124;
+}
+
+option:hover {
+  background-color: #FFCB77;
+  color: #210124;
+}

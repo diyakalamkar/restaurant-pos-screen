@@ -1,0 +1,151 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+:root {
+  --yellow: #F6BD60;
+  --linen: #F7EDE2;
+  --rose: #F5CAC3;
+  --coral: #F28482;
+  --blue: #84A59D;
+  --text-dark: #333;
+  --bg-light: #FDFFFC;
+}
+
+body {
+  font-family: 'Nunito', sans-serif !important;
+  background-color: var(--linen);
+  color: var(--text-dark);
+  font-weight: 600;
+  margin: 0;
+  padding: 2rem;
+}
+
+.container {
+  background-color: var(--bg-light);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  word-spacing: 200%;
+}
+
+h2, h3, h4 {
+  color: var(--blue);
+}
+
+label {
+  font-weight: 600;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+input[type="number"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 250px;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-family: 'Nunito', sans-serif !important;
+  border-radius: 6px;
+  border: none;
+  background-color: var(--dblue);
+  color: var(--blue);
+  font-weight: bolder;
+  font-size: medium;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--blue);
+  color: var(--dblue);
+}
+
+button:disabled {
+  background-color: #a5c7b4;
+  cursor: not-allowed;
+}
+
+form {
+  margin-bottom: 2rem;
+}
+
+hr {
+  margin: 2rem 0;
+  border: 1px solid var(--gblue);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 0.75rem;
+}
+
+.payment-method-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--gblue);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+}
+
+input[type="checkbox"]:disabled {
+  accent-color: #aaa;
+  cursor: not-allowed;
+}
+
+input[readonly] {
+  background-color: #f0f0f0;
+}
+
+#payment-summary {
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+small {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+select:disabled,
+input:disabled {
+  background-color: #eee;
+}
+
+select:focus,
+input:focus {
+  outline: 2px solid var(--gblue);
+}
+
+.deal-item-block {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}

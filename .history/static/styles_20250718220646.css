@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fefefe;
+  margin: 0;
+  padding: 1rem;
+  color: #2B2B2B;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+h1, h2, h3, h4 {
+  color: #2B9EB3;
+}
+
+label, .form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #2B2B2B;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #2B9EB3;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: border 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #44AF69;
+  box-shadow: 0 0 0 3px rgba(68, 175, 105, 0.2);
+}
+
+/* Tender checkbox styling */
+input[type="checkbox"] {
+  accent-color: #44AF69;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+/* Buttons */
+button {
+  background-color: #44AF69;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+button:hover {
+  background-color: #2B9EB3;
+}
+
+button:disabled,
+button[disabled] {
+  background-color: #DBD5B5;
+  color: #888;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Red delete/danger buttons */
+.button-danger {
+  background-color: #F8333C;
+}
+
+.button-danger:hover {
+  background-color: #D3262D;
+}
+
+/* Add Payment Method button specific */
+#add-payment-method-btn:disabled {
+  background-color: #DBD5B5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Tables or summaries */
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: left;
+}
+
+.summary-table th {
+  background-color: #FCAB10;
+  color: #fff;
+}
+
+/* Form sections */
+.form-section {
+  background-color: #F9F9F9;
+  border: 1px solid #DBD5B5;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Subtle hover on rows (optional) */
+.summary-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Optional: animate button click */
+button:active {
+  transform: scale(0.98);
+}
+
+/* Optional: select arrow styling */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%232B9EB3' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1rem;
+}
+
+.container {
+  max-width: 90%;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 2px solid #DBD5B5;
+  border-radius: 12px;
+  background-color: #FAFAFA;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}

@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #ffffff;
+  color: #2B9EB3;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border: 2px solid #DBD5B5;
+  border-radius: 12px;
+  background-color: #FAFAFA;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+  color: #2B9EB3;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #333;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 2px solid #2B9EB3;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #44AF69;
+  outline: none;
+}
+
+button {
+  background-color: #FCAB10;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #F8333C;
+}
+
+button:disabled {
+  background-color: #DBD5B5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Checkbox Styles */
+input[type="checkbox"] {
+  accent-color: #44AF69;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+/* Add spacing for checkbox + label */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Headings inside sections */
+section h3 {
+  color: #F8333C;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Add Payment Method Button */
+#add-payment-method-btn:disabled {
+  background-color: #DBD5B5;
+  color: #999;
+  cursor: not-allowed;
+}

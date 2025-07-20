@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Receipt - Cart #{{ cart.id }}</title>
+</head>
+<body>
+  <p><strong>Receipt Number:</strong> {{ cart.receipt_number }}</p>
+  <p><strong>Cashier:</strong> {{ user.name }}</p>
+  <p><strong>Channel:</strong> {{ cart.channel }}</p>
+  <p><strong>Checked Out At:</strong> {{ cart.checked_out_at.strftime("%d-%m-%Y %I:%M %p") if cart.checked_out_at else "N/A" }}</p>
+
+  <hr>
+
+  <h3>Individual Items</h3>
+  <ul>
+    {% for item in cart_items %}
+      <li>
+        {{ item.quantity }} x {{ item.product_name }} @ ₹{{ item.price }} = ₹{{ item.quantity * item.price }}
+        {% if item.modifiers %}
+          <br><small>Modifiers: {{ item.modifiers | map(attribute='modifier_name') | join(', ') }}</small>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% if cart.deals %}
+    <hr>
+    <h3>Deals</h3>
+    <ul>
+      {% for cart_deal in cart.deals %}
+        <li>
+          <strong>{{ cart_deal.deal_name }}</strong> - ₹{{ '%.2f'|format(cart_deal.total_price or 0.0) }}
+          <ul>
+            {% for item in cart_deal.items %}
+              <li>
+                {{ item.quantity }} x {{ item.product_name }} @ ₹{{ item.price }} = ₹{{ item.quantity * item.price }}
+                {% if item.modifiers %}
+                  <br><small>Modifiers: {{ item.modifiers | map(attribute='modifier_name') | join(', ') }}</small>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <hr>
+
+  <p><strong>Subtotal:</strong> ₹{{ "%.2f"|format(cart.subtotal or 0.0) }}</p>
+  <p><strong>Tax (5%):</strong> ₹{{ "%.2f"|format(cart.tax or 0.0) }}</p>
+  <p><strong>Total (Before Discount):</strong> ₹{{ "%.2f"|format((cart.subtotal or 0.0) + (cart.tax or 0.0)) }}</p>
+
+  {% if cart.discount_applied %}
+    <p><strong>Discount Applied:</strong> {{ cart.discount_applied }} - ₹{{ "%.2f"|format(cart.discount_amount or 0.0) }}</p>
+  {% endif %}
+
+  <hr>
+
+  <p><strong>Final Amount (After Discount):</strong>
+    ₹{{ "%.2f"|format(cart.rounded_total if cart.rounded_total is not none else cart.total or 0.0) }}</p>
+
+  {% if cart.round_off_amount %}
+    <p><strong>Rounded Off:</strong> ₹{{ "%.2f"|format(cart.round_off_amount or 0.0) }}</p>
+  {% endif %}
+
+  {% if cart.change_returned %}
+    <p><strong>Change Returned:</strong> ₹{{ "%.2f"|format(cart.change_returned or 0.0) }}</p>
+  {% endif %}
+
+  {% if cart.payments %}
+    <hr>
+    <h3>Payments</h3>
+    <ul>
+      {% for payment in cart.payments %}
+        <li>{{ payment.method|capitalize }} - ₹{{ "%.2f"|format(payment.amount) }}{% if payment.is_tender %} (Tendered){% endif %}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p><strong>Payment Method:</strong> {{ cart.payment_method }}</p>
+  {% endif %}
+
+  <hr>
+
+  <a href="/cashier-dashboard?token={{ token }}"><button>Back To Dashboard</button></a>
+</body>
+</html>

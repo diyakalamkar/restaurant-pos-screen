@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+body, html {
+  font-family: "DM Sans", sans-serif;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  margin: 20px;
+  background-color: #c7eae4;
+  color: #2833b8;
+}
+
+h2, h3, h4 {
+  color: #2833b8;
+}
+
+form {
+  background-color: #ddc2ed;
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+label {
+  display: inline-block;
+  margin: 6px 0 4px;
+  font-weight: 500;
+}
+
+input[type="text"], input[type="number"], select {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 12px;
+}
+
+button {
+  background-color: #fff18f;
+  color: #2833b8;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+button:hover {
+  background-color: #ddc2ed;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 8px;
+  background-color: #fff;
+  margin-bottom: 6px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.payment-method-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.deal-item-block {
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #ddc2ed;
+  border-radius: 6px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 24px 0;
+}
+
+.voided {
+  text-decoration: line-through;
+  color: gray;
+}
+
+select, option {
+  font-family: "DM Sans", sans-serif;
+}
+
+select {
+  appearance: none; /* removes native arrow on some browsers */
+  background-color: #fff;
+  border: 2px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: border-color 0.2s ease;
+}
+
+select:focus {
+  border-color: #2e86de;
+  outline: none;
+}
+
+select {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='10' viewBox='0 0 14 10'%3E%3Cpath fill='none' stroke='%23333' stroke-width='2' d='M1 1l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  padding-right: 32px;
+}
+
+option {
+  font-size: 14px;
+  padding: 6px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+textarea {
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: border-color 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #2e86de;
+}
+

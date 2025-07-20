@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+body, html {
+  font-family: "DM Sans", sans-serif;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  margin: 20px;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+h2, h3, h4 {
+  color: #2e2e2e;
+}
+
+form {
+  background-color: #fff;
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+label {
+  display: inline-block;
+  margin: 6px 0 4px;
+  font-weight: 500;
+}
+
+input[type="text"], input[type="number"], select {
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 12px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 8px;
+  background-color: #fff;
+  margin-bottom: 6px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.payment-method-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.deal-item-block {
+  border-left: 4px solid #007bff;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #e9f2fb;
+  border-radius: 6px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.success {
+  color: green;
+  font-weight: bold;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 24px 0;
+}
+
+.voided {
+  text-decoration: line-through;
+  color: gray;
+}
